@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 
+import { createBall } from './components/foatball/ball';
+import { createGround } from './components/foatball/ground';
+import { createGoalPost } from './components/foatball/goalpost';
+import { addLights } from './components/foatball/light';
+
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
@@ -9,30 +14,24 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-const renderer = new THREE.WebGLRenderer({
-  antialias: true
-});
+camera.position.set(0, 6, 15);
 
+const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({
-  color: 0x00ff00,
-  wireframe: true
-});
+// Add objects
+const ball = createBall();
+scene.add(ball);
 
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+scene.add(createGround());
+scene.add(createGoalPost());
 
-camera.position.z = 5;
+addLights(scene);
 
 function animate() {
   requestAnimationFrame(animate);
-
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-
   renderer.render(scene, camera);
 }
 
