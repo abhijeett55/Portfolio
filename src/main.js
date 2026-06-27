@@ -1,8 +1,13 @@
 import * as THREE from "three";
+import "./style.css";
 import { createStars } from "./components/Star";
 
 const scene = new THREE.Scene();
+const quote = document.getElementById("quote");
+const quoteText = document.getElementById("quoteText");
+const typeSound = document.getElementById("typeSound");
 
+const message = "Start From the Beginning!!";
 const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -58,6 +63,36 @@ overlayScene.add(overlay);
 //
 const clock = new THREE.Clock();
 
+let started = false;
+
+function typeWriter(text, speed = 80){
+
+    quoteText.textContent = ""
+
+    let i = 0;
+
+    quote.classList.add("show");
+
+    const interval = setInterval(()=>{
+
+        quoteText.textContent += text[i];
+
+        // restart sound
+        typeSound.currentTime = 0;
+        typeSound.play().catch(() => {});
+
+        i++;
+
+        if(i >= text.length){
+
+            clearInterval(interval);
+
+        }
+
+    },speed);
+
+}
+
 function animate() {
 
     requestAnimationFrame(animate);
@@ -95,6 +130,17 @@ function animate() {
 
         overlayMaterial.opacity = progress;
 
+
+
+    }
+
+
+    if(t >= 15 && !started){
+
+        started = true;
+
+        typeWriter(message,70);
+
     }
 
     renderer.autoClear = true;
@@ -105,6 +151,8 @@ function animate() {
     renderer.render(overlayScene, overlayCamera);
 
 }
+
+
 
 animate();
 
