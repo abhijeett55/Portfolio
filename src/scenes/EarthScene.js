@@ -8,7 +8,7 @@ export class EarthScene {
 
     constructor() {
 
-        console.log("EarthScene Constructor");
+        
         //
         // Scene
         //
@@ -72,7 +72,7 @@ export class EarthScene {
         // Earth
         //
 
-        console.log(this.earth);
+        
         this.earth = createEarth();
 
         this.scene.add(this.earth);
